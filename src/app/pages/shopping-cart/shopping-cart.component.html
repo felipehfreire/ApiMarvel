@@ -1,0 +1,63 @@
+<div class="container main-container">
+
+    <div class="row text-center">
+
+        <h1>Carrinho de compras</h1>
+        <div class="row col-10" *ngIf="cart$">
+            <p>
+                Você possui {{ cart$.totalItemsCount }} itens no seu carrinho de compras.
+
+            </p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product</th>
+                        <th class="text-center" style="width: 230px">Quantity</th>
+                        <th class="text-right" style="width: 200px">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of cart$.items">
+                        <td>
+                            <img src="{{ item.result.thumbnail.path }}.jpg" alt="..." class="img-thumbnail">
+
+                        </td>
+                        <td class="align-middle">
+                            {{ item.result.title }}
+                        </td>
+                        <td class="align-middle">
+                            {{item.qtd}}
+                        </td>
+                        <td class="text-right align-middle">
+                            {{ item.totalPrice | currency:'BRL':true:'1.2-2':'pt' }}
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th class="text-right">{{ cart$.totalPriceCart | currency:'BRL':true:'1.2-2':'pt' }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <div class="card-footer col-md-12 text-muted pull-right">
+                <div class="card-body pull-right">
+
+                    <a class="btn btn-light" *ngIf="cart$.items.length" (click)="clearCart()" [routerLink]="['/cart']">
+                        <span class="fa fa-eraser"></span>
+                        Limpar Carrinho
+                    </a>
+
+                    <a class="btn btn-primary ml-3" *ngIf="cart$.items.length" [routerLink]="['/check-out']">
+                        Finalizar Compra
+                    </a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

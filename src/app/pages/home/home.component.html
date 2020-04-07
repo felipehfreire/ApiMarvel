@@ -1,0 +1,48 @@
+<div class="container main-container">
+
+    <div class="row text-center">
+        
+        
+        <div *ngFor="let comic of comicContent.data.results" class="col-md-4" style="padding-bottom: 30px;">
+            <div class="card h-100">
+                <div *ngIf="comic.rare"  class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <h4>
+                        <span class="pull-left spinner-grow spinner-grow text-dark fa fa-star" role="status" aria-hidden="true"></span>  
+                        <span class="fa fa-star"> </span>
+                        <strong>Rare!</strong> 
+                    </h4>
+                    
+                  </div>
+                <a class="text-decoration-none" [routerLink]="['/comicDetail']" [state] = "{comic : comic}"> 
+                    <div style="align-content:center;">
+                        <img style="margin: 20px;" src="{{ comic.thumbnail.path }}.jpg"   height="80%" width="80%" alt="">
+                    </div>
+                </a>
+                <h4 comicclass="card-title">{{ comic.title | titlecase }}</h4> 
+
+                 <div [ngSwitch]="comic.promotion">
+                    <span *ngSwitchCase="true"  role="status" aria-hidden="true" class=" spinner-grow spinner-grow text-warning"></span>
+                    <p *ngSwitchCase="true" class="text-warning">Promoção!</p>
+                    <p *ngSwitchCase="false">Por apenas:</p>
+                </div>
+
+                <div *ngIf="comic.promotion" class="card-body">
+                    <div><h4 class="card-text">De:
+                        <small><del>{{ comic.prices[0].price | currency:'BRL':true:'1.2-2':'pt' }}</del></small>
+                        Por: {{ comic.promotionPrice | currency:'BRL':true:'1.2-2':'pt' }}
+                    </h4></div>
+                </div>
+
+                <div *ngIf="!comic.promotion" class="card-body">
+                    <div><h4>Preço: {{ comic.prices[0].price | currency:'BRL':true:'1.2-2':'pt' }}</h4></div>
+                </div>
+
+                 <div class="card-footer">
+                    <a class="btn btn-primary" (click)="addTocart(comic);">
+                        <span class="fa fa-cart-plus"></span> Add to Cart
+                    </a>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
